@@ -102,7 +102,7 @@ def generate_caption(model, tokenizer, photo, max_length):
 
 # 📌 Main execution
 if __name__=='__main__':
-    captions = load_captions('Flickr8k.token.txt')
+    captions = load_captions('../Flickr8k.token.txt')
     clean_captions(captions)
     tokenizer = create_tokenizer(captions)
     vocab_size = len(tokenizer.word_index) + 1
@@ -110,18 +110,18 @@ if __name__=='__main__':
     max_length = max(len(c.split()) for caps in captions.values() for c in caps)
 
 # 2. Extract image features
-    features = extract_features('Flickr8k_Dataset')
+    features = extract_features('../Flickr8k_Dataset')
     captions = {k: v for k, v in captions.items() if k in features}  # ⬅️ this is new
 
 
 # 3. Save extracted features
-    dump(features, open('models/features.pkl', 'wb'))
+    dump(features, open('../models/features.pkl', 'wb'))
 
 # 4. Save tokenizer
-    dump(tokenizer, open('models/tokenizer.pkl', 'wb'))
+    dump(tokenizer, open('../models/tokenizer.pkl', 'wb'))
 
 # 5. Save max_length
-    dump(max_length, open('models/max_length.pkl', 'wb'))
+    dump(max_length, open('../models/max_length.pkl', 'wb'))
 
 
     model = define_model(vocab_size, max_length)
@@ -129,4 +129,4 @@ if __name__=='__main__':
 
     gen = data_generator(captions, features, tokenizer, max_length, vocab_size)
     model.fit(gen, epochs=20, steps_per_epoch=steps, verbose=2)
-    model.save('models/model_cap.h5')
+    model.save('../models/model_cap.h5')
