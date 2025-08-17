@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Caption Generator</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container my-5">
+        <div class="card p-4 p-md-5">
+            <div class="text-center">
+                <h1 class="mb-3 fw-bold">Image Caption Generator</h1>
+                <p class="text-muted mb-4">Upload an image and let the AI describe it for you.</p>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data" id="upload-form" class="text-center">
+                <div class="upload-btn-wrapper">
+                    <button class="btn-upload" type="button">Choose an Image</button>
+                    <input type="file" name="file" id="file-upload" accept="image/*" onchange="this.form.submit(); showSpinner();">
+                </div>
+            </form>
+            
+            <div class="d-flex justify-content-center mt-4">
+                <div class="spinner-border text-primary" role="status" id="loading-spinner">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+            {% if image_path %}
+            <div class="mt-5 text-center">
+                <h3 class="mb-3">Uploaded Image:</h3>
+                <img src="{{ image_path }}" alt="Uploaded Image" id="image-preview">
+                
+                {% if caption %}
+                <div class="caption-box mt-4 text-start">
+                    <p class="caption-text">"{{ caption }}"</p>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        <footer class="text-center text-muted mt-4">
+            <p>&copy; 2024 - Built with Flask &amp; Bootstrap</p>
+        </footer>
+    </div>
+
+    <script>
+        function showSpinner() {
+            // Hide the form and show the spinner
+            document.getElementById('upload-form').style.display = 'none';
+            document.getElementById('loading-spinner').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
